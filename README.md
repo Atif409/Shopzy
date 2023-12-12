@@ -1,0 +1,2 @@
+# Shopzy
+🛍️ Welcome to Shopzy
