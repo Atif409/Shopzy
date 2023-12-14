@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
 import { styles } from '../styles/LoginStyle';
-
+import CustomIcon from '../components/CustomIcon';
 const RegisterScreen = () => {
   const { container,
     tagline,
@@ -40,7 +40,7 @@ const RegisterScreen = () => {
         </View>
         <View style={mainLoginBox}>
           <View style={loginBox}>
-            <MaterialIcons name="person" size={24} color="grey" style={icon} />
+            <CustomIcon name="person" style={icon} /> 
             <TextInput
               value={name}
               onChange={(text) => setName(text)}
@@ -48,7 +48,7 @@ const RegisterScreen = () => {
             </TextInput>
           </View>
           <View style={loginBox}>
-            <MaterialIcons name="email" size={24} color="grey" style={icon} />
+          <CustomIcon name="email" style={icon} /> 
             <TextInput
               value={email}
               onChange={(text) => setEmail(text)}
@@ -56,27 +56,30 @@ const RegisterScreen = () => {
             </TextInput>
           </View>
           <View style={loginBox}>
-            <MaterialIcons name="lock" size={24} color="grey" style={icon} />
+          <CustomIcon name="lock" style={icon} /> 
             <TextInput
               value={password}
               onChange={(text) => setPassword(text)}
               placeholder='Enter your password'
+              
               style={[inputs, { fontSize: email ? 16 : 16 }]}
               secureTextEntry={true}
             >
             </TextInput>
           </View>
           <View style={touchable}>
+            
             <Text>
-              Keep me logged in
+             
+
             </Text>
             <Text style={{ color: 'blue', fontWeight: 500 }}>
-              Forgot Password
+  
             </Text>
           </View>
           <View style={{ marginTop: 80 }} />
           <Pressable style={btnLogin} onPress={() => {
-            console.log("Login Pressed")
+            console.log("Register Pressed")
           }}
           >
             <Text style={btnText}>Register</Text>

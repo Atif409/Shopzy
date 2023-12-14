@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
 import { styles } from '../styles/LoginStyle';
+import CustomIcon from '../components/CustomIcon';
 
 const LoginScreen = () => {
     const { container,
@@ -39,7 +40,7 @@ const LoginScreen = () => {
                 </View>
                 <View style={mainLoginBox}>
                     <View style={loginBox}>
-                        <MaterialIcons name="email" size={24} color="grey" style={icon} />
+                    <CustomIcon name="email" style={icon}/>
                         <TextInput
                             value={email}
                             onChange={(text) => setEmail(text)}
@@ -47,7 +48,7 @@ const LoginScreen = () => {
                         </TextInput>
                     </View>
                     <View style={loginBox}>
-                        <MaterialIcons name="lock" size={24} color="grey" style={icon} />
+                    <CustomIcon name="lock" style={icon}/>
                         <TextInput
                             value={password}
                             onChange={(text) => setPassword(text)}

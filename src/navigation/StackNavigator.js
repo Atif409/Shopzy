@@ -11,7 +11,10 @@ const StackNavigator = () => {
     return (
         <NavigationContainer initialRouteName="Onboarding">
             <Stack.Navigator>
-                <Stack.Screen name="OnBoarding" options={{ headerShown: false }} component={OnBoardingScreen} />
+                <Stack.Screen 
+                name="OnBoarding"
+                 options={{ headerShown: false }}
+                  component={OnBoardingScreen} />
                 <Stack.Screen
                     name="Login"
                     component={LoginScreen}

@@ -6,7 +6,7 @@ import DiscoverScreen from '../screens/DiscoverScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import CartScreen from '../screens/CartScreen';
-
+import CustomIcon from './CustomIcon';
 const Tab = createBottomTabNavigator();
 
 const tabScreens = [
@@ -15,8 +15,8 @@ const tabScreens = [
     component: DiscoverScreen,
     label: 'Discover',
     icon: ({ focused }) => (
-      focused ? <MaterialIcons name="search" size={24} color="gray" /> :
-        <MaterialIcons name="search" size={24} color="black" />
+      focused ? <CustomIcon name="search" /> :
+      <CustomIcon name="search" color='black'/> 
     ),
   },
 
@@ -25,8 +25,8 @@ const tabScreens = [
     component: CartScreen,
     label: 'Cart',
     icon: ({ focused }) => (
-      focused ? <MaterialIcons name="shopping-cart" size={24} color="gray" /> :
-        <MaterialIcons name="shopping-cart" size={24} color="black" />
+      focused ? <CustomIcon name="shopping-cart" /> :
+      <CustomIcon name="shopping-cart" color='black'/> 
     ),
   },
   {
@@ -34,8 +34,8 @@ const tabScreens = [
     component: HomeScreen,
     label: 'Home',
     icon: ({ focused }) => (
-      focused ? <MaterialIcons name="home" size={24} color="gray" /> :
-        <MaterialIcons name="home" size={24} color="black" />
+      focused ?<CustomIcon name="home" /> :
+      <CustomIcon name="home" color='black'/> 
     ),
   },
   {
@@ -43,8 +43,8 @@ const tabScreens = [
     component: CategoryScreen,
     label: 'Categories',
     icon: ({ focused }) => (
-      focused ? <MaterialIcons name="category" size={24} color="gray" /> :
-        <MaterialIcons name="category" size={24} color="black" />
+      focused ? <CustomIcon name="category" /> :
+      <CustomIcon name="category" color='black'/> 
     ),
   },
   {
@@ -52,15 +52,16 @@ const tabScreens = [
     component: ProfileScreen,
     label: 'Profile',
     icon: ({ focused }) => (
-      focused ? <MaterialIcons name="person" size={24} color="gray" /> :
-        <MaterialIcons name="person" size={24} color="black" />
+      focused ? <CustomIcon name="person" />  :
+      <CustomIcon name="person" color='black'/> 
     ),
   },
 ];
 
 const BottomTabs = () => {
   return (
-    <Tab.Navigator>
+    
+    <Tab.Navigator initialRouteName="Home">
       {tabScreens.map((screen) => (
         <Tab.Screen
           key={screen.name}
