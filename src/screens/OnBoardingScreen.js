@@ -8,26 +8,26 @@ const OnBoardingScreen = ({ navigation }) => {
     const pages = [
         {
             backgroundColor: 'white',
-            image: <Image source={require('../../assets/connect.png')} style={img} />,
+            image: <Image source={require('../../assets/background/connect.png')} style={img} />,
             title: 'Discover a Vibrant Community',
             subtitle: 'Connect with fellow sellers on our platform'
         }
         ,
         {
             backgroundColor: '#FEBE10',
-            image: <Image source={require('../../assets/connect.png')} style={img} />,
+            image: <Image source={require('../../assets/background/connect.png')} style={img} />,
             title: 'Share and Borrow with Ease',
             subtitle: 'Exchange items with your peers effortlessly',
         },
         {
             backgroundColor: 'pink',
-            image: <Image source={require('../../assets/connect.png')} style={img} />,
+            image: <Image source={require('../../assets/background/connect.png')} style={img} />,
             title: 'Negotiate Like a Pro',
             subtitle: 'Master the art of bargaining with sellers',
         },
         {
             backgroundColor: '#fff',
-            image: <Image source={require('../../assets/connect.png')} style={img} />,
+            image: <Image source={require('../../assets/background/connect.png')} style={img} />,
             title: 'Shop with Confidence',
             subtitle: 'Buy from trustworthy sellers you can rely on',
         },
