@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -16,7 +17,7 @@ export const styles = StyleSheet.create({
         fontSize: 18, fontWeight: 'bold', marginTop: 12, color: '#041E42'
     },
     mainLoginBox: {
-        marginTop: 70,
+        marginTop: 40,
     },
     loginBox: {
         flexDirection: 'row',
@@ -60,5 +61,43 @@ export const styles = StyleSheet.create({
         color:'gray',
         fontSize:16,
         color:'grey',
-    }
+    },
+    divider: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 10,
+        marginTop: 17,
+      },
+      line: {
+        flex: 1,
+        height: 1,
+        backgroundColor: 'gray',
+        marginHorizontal: 10,
+      },
+      buttonText: {
+        fontSize: 14,
+        color: 'gray',
+      },
+      socialButton: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        height: 52,
+        borderWidth: 0.5,
+        borderColor: 'gray',
+        marginRight: 4,
+        borderRadius: 10,
+      },
+      socialIcon: {
+        height: 36,
+        width: 36,
+        marginRight: 8,
+      },
+      socialContainer: { 
+        flexDirection: 'row',
+        justifyContent: 'center'
+      },
+    
 });
+
