@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         marginLeft: 8
     },
     touchable: {
-        marginTop: 12,
+        marginTop: 3,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: 'space-between'
@@ -88,6 +88,7 @@ export const styles = StyleSheet.create({
         borderColor: 'gray',
         marginRight: 4,
         borderRadius: 10,
+        fontWeight:500
       },
       socialIcon: {
         height: 36,
