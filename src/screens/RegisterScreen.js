@@ -72,6 +72,18 @@ const RegisterScreen = () => {
             >
             </TextInput>
           </View>
+          <View style={loginBox}>
+            <CustomIcon name="lock" style={icon} />
+            <TextInput
+              value={password}
+              onChange={(text) => setPassword(text)}
+              placeholder='Confirm your password'
+
+              style={[inputs, { fontSize: email ? 16 : 16 }]}
+              secureTextEntry={true}
+            >
+            </TextInput>
+          </View>
           <View style={touchable}>
 
             <Text>
