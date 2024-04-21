@@ -41,10 +41,10 @@ const tabScreens = [
   {
     name: 'category',
     component: CategoryScreen,
-    label: 'Categories',
+    label: 'Messages',
     icon: ({ focused }) => (
-      focused ? <CustomIcon name="category" /> :
-      <CustomIcon name="category" color='black'/> 
+      focused ? <CustomIcon name="message" /> :
+      <CustomIcon name="message" color='black'/> 
     ),
   },
   {

@@ -5,6 +5,7 @@ import LoginScreen from '../screens/LoginScreen'
 import RegisterScreen from '../screens/RegisterScreen'
 import OnBoardingScreen from '../screens/OnBoardingScreen'
 import BottomTabs from '../components/BottomTabs'
+import VerifyScreen from '../screens/VerifyScreen' // Import VerifyScreen component
 
 const StackNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -12,9 +13,9 @@ const StackNavigator = () => {
         <NavigationContainer initialRouteName="Onboarding">
             <Stack.Navigator>
                 <Stack.Screen 
-                name="OnBoarding"
-                 options={{ headerShown: false }}
-                  component={OnBoardingScreen} />
+                    name="OnBoarding"
+                    options={{ headerShown: false }}
+                    component={OnBoardingScreen} />
                 <Stack.Screen
                     name="Login"
                     component={LoginScreen}
@@ -28,9 +29,12 @@ const StackNavigator = () => {
                     name="Main"
                     component={BottomTabs}
                     options={{ headerShown: false }} />
+                <Stack.Screen
+                    name="VerifyScreen"
+                    component={VerifyScreen}
+                    options={{ headerShown: false }} /> 
             </Stack.Navigator>
         </NavigationContainer>
-
     )
 }
 export default StackNavigator

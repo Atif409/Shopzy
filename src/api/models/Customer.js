@@ -1,6 +1,6 @@
-const mongoose = require('monngose');
+const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const customerSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -10,18 +10,23 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    mobileNo: {
+        type: String,
+        unique: true,
+        sparse: true // Allows multiple documents that have no value for the field
+    },
     password: {
         type: String,
         required: true,
     },
-    verfied: {
+    verified: {
         type: Boolean,
         default: false
     },
-    verificationToken: String,
-    adresses: [
+    verificationCode: String, 
+    addresses: [
         {
-            name: String,
+            fullName: String, 
             mobileNo: String,
             houseNo: String,
             street: String,
@@ -32,14 +37,14 @@ const userSchema = new mongoose.Schema({
         }
     ],
     orders: [{
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Order"
     }],
     createdAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     }
-})
+});
 
-const User = mongoose.model("user", userSchema);
-module.exports = User;
+const Customer = mongoose.model("Customer", customerSchema);
+module.exports = Customer;

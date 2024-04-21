@@ -1,53 +1,49 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
-import { Image } from 'react-native';
 
 const OnBoardingScreen = ({ navigation }) => {
-    const { container, img } = styles;
+    const { width: screenWidth } = Dimensions.get('window');
+    const { container } = styles;
+
     const pages = [
         {
-            backgroundColor: 'white',
-            image: <Image source={require('../../assets/background/connect.png')} style={img} />,
+            backgroundColor: '#67a3ad',
+            image: <Image source={require('../../assets/background/discover.jpeg')} style={[styles.image, { width: screenWidth }]} resizeMode="contain" />,
             title: 'Discover a Vibrant Community',
             subtitle: 'Connect with fellow sellers on our platform'
-        }
-        ,
+        },
         {
-            backgroundColor: '#FEBE10',
-            image: <Image source={require('../../assets/background/connect.png')} style={img} />,
+            backgroundColor: '#8fd8d7',
+            image: <Image source={require('../../assets/background/share.jpeg')} style={[styles.image, { width: screenWidth }]} resizeMode="contain" />,
             title: 'Share and Borrow with Ease',
             subtitle: 'Exchange items with your peers effortlessly',
         },
         {
-            backgroundColor: 'pink',
-            image: <Image source={require('../../assets/background/connect.png')} style={img} />,
+            backgroundColor: '#4da3bc',
+            image: <Image source={require('../../assets/background/nego.jpeg')} style={[styles.image, { width: screenWidth }]} resizeMode="contain" />,
             title: 'Negotiate Like a Pro',
             subtitle: 'Master the art of bargaining with sellers',
         },
         {
-            backgroundColor: '#fff',
-            image: <Image source={require('../../assets/background/connect.png')} style={img} />,
+            backgroundColor: '#113c67',
+            image: <Image source={require('../../assets/background/shop.jpeg')} style={[styles.image, { width: screenWidth }]} resizeMode="contain" />,
             title: 'Shop with Confidence',
             subtitle: 'Buy from trustworthy sellers you can rely on',
         },
-
     ];
 
     return (
         <View style={container}>
             <Onboarding
                 containerStyles={{ paddingHorizontal: 15 }}
-
                 pages={pages}
                 onDone={() => {
                     navigation.navigate('Login');
                 }}
-                onSkip={
-                    () => {
-                        navigation.navigate('Login')
-                    }
-                }
+                onSkip={() => {
+                    navigation.navigate('Login');
+                }}
             />
         </View>
     );
@@ -57,10 +53,9 @@ export default OnBoardingScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    }
-    ,
-    img: {
-        height: 200,
-        width: 500
-    }
+    },
+    image: {
+        height: 380,
+        width: '100%', // To make it responsive to the screen width
+    },
 });

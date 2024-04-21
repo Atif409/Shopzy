@@ -11,5 +11,4 @@ const CustomIcon = ({ name, size = 24, color = 'grey', style }) => {
     />
   );
 };
-
 export default CustomIcon;

@@ -9,9 +9,9 @@ export const styles = StyleSheet.create({
     subContainer: {
         alignItems: 'center'
     },
-    logo:{
-        width:150,
-        height:150
+    logo: {
+        width: 150,
+        height: 150
     },
     tagline: {
         fontSize: 18, fontWeight: 'bold', marginTop: 12, color: '#041E42'
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     },
     btnLogin: {
         width: 200,
-        backgroundColor: '#FEBE10',
+        backgroundColor: '#FF7F00',
         borderRadius: 6,
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -54,31 +54,31 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight:'900'
     },
-    noAccout:{
-        textAlign:'center',
-        color:'gray',
-        fontSize:16,
-        color:'grey',
+    noAccout: {
+        textAlign: 'center',
+        color: 'gray',
+        fontSize: 16,
+        color: 'grey',
     },
     divider: {
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 10,
         marginTop: 17,
-      },
-      line: {
+    },
+    line: {
         flex: 1,
         height: 1,
         backgroundColor: 'gray',
         marginHorizontal: 10,
-      },
-      buttonText: {
+    },
+    buttonText: {
         fontSize: 14,
         color: 'gray',
-      },
-      socialButton: {
+    },
+    socialButton: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -88,17 +88,17 @@ export const styles = StyleSheet.create({
         borderColor: 'gray',
         marginRight: 4,
         borderRadius: 10,
-        fontWeight:500
-      },
-      socialIcon: {
+        fontWeight: 500
+    },
+    socialIcon: {
         height: 36,
         width: 36,
         marginRight: 8,
-      },
-      socialContainer: { 
+    },
+    socialContainer: {
         flexDirection: 'row',
         justifyContent: 'center'
-      },
-    
+    },
+
 });
 
