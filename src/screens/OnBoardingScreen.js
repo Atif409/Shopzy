@@ -39,10 +39,10 @@ const OnBoardingScreen = ({ navigation }) => {
                 containerStyles={{ paddingHorizontal: 15 }}
                 pages={pages}
                 onDone={() => {
-                    navigation.navigate('Login');
+                    navigation.navigate('Main');
                 }}
                 onSkip={() => {
-                    navigation.navigate('Login');
+                    navigation.navigate('Main');
                 }}
             />
         </View>
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     },
     image: {
         height: 380,
-        width: '100%', // To make it responsive to the screen width
+        width: '100%', 
     },
 });

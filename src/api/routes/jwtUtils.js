@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-// Generate a random secret key for JWT
+// Function to generate secret key
 const generateSecretKey = () => {
     return crypto.randomBytes(32).toString('hex');
-};
+  };
 
 // Sign JWT token
 const signToken = (payload, secretKey) => {

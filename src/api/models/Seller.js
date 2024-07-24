@@ -10,6 +10,11 @@ const sellerSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    mobileNo: {
+        type: String,
+        unique: true,
+        sparse: true 
+    },
     password: {
         type: String,
         required: true,
@@ -18,10 +23,14 @@ const sellerSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    verificationToken: String,
-    adresses: [
+    verificationCode: String, 
+    category: {
+        type: String,
+        required: true
+    },
+    addresses: [
         {
-            name: String,
+            fullName: String, 
             mobileNo: String,
             houseNo: String,
             street: String,
@@ -32,14 +41,14 @@ const sellerSchema = new mongoose.Schema({
         }
     ],
     orders: [{
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Order"
     }],
     createdAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     }
-})
+});
 
-const Seller = mongoose.model("seller", sellerSchema);
+const Seller = mongoose.model("Seller", sellerSchema);
 module.exports = Seller;

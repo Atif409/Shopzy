@@ -14,10 +14,10 @@ export const styles = StyleSheet.create({
         height: 150
     },
     tagline: {
-        fontSize: 18, fontWeight: 'bold', marginTop: 12, color: '#041E42'
+        fontSize: 18, fontWeight: 'bold', marginTop: 8, color: '#041E42'
     },
     mainLoginBox: {
-        marginTop: 40,
+        marginTop: 30,
     },
     loginBox: {
         flexDirection: 'row',
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "#D0D0D0",
         paddingVertical: 5,
         borderRadius: 5,
-        marginTop: 20
+        marginTop: 14
     },
     inputs: {
         color: 'grey',
@@ -99,6 +99,12 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
+cat:{
+    height: 5,
+    color: 'grey',
+    marginVertical: 1,
+    width: 280
+}
 
 });
 

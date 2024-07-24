@@ -1,10 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, Pressable, Alert } from 'react-native';
 import CustomIcon from '../components/CustomIcon';
-import { FontAwesome } from '@expo/vector-icons';
+import { useRoute } from '@react-navigation/native';
+import { API_URL } from '@env';
 const CartScreen = () => {
+  const route = useRoute();
+  const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [totalPrice, setTotalPrice] = useState(0); // Initialize total price state
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    if (route.params?.product) {
+      addItemToCart(route.params.product);
+    }
+  }, [route.params?.product]);
+
+  const addItemToCart = (product) => {
+    setCartItems((prevItems) => [...prevItems, product]);
+    setItemQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [product._id]: (prevQuantities[product._id] || 0) + 1,
+    }));
+  };
 
   const handleIncrease = (itemId) => {
     setItemQuantities((prevQuantities) => ({
@@ -16,72 +33,32 @@ const CartScreen = () => {
   const handleDecrease = (itemId) => {
     setItemQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [itemId]: Math.max(0, prevQuantities[itemId] - 1), // Ensure quantity is at least 0
+      [itemId]: Math.max(0, prevQuantities[itemId] - 1),
     }));
   };
-  
-  const data = [
-    {
-      id: '1',
-      name: 'Iphone 15 Plus',
-      price: 350000,
-      image: require('../../assets/deals/iphone.png'),
-    },
-    {
-      id: '2',
-      name: 'OnePlus',
-      price: 350000,
-      image: require('../../assets/deals/oneplus.png'),
-    },
-    {
-      id: '3',
-      name: 'Realme',
-      price: 350000,
-      image: require('../../assets/deals/realme.png'),
-    },
-    {
-      id: '4',
-      name: 'Redmi',
-      price: 350000,
-      image: require('../../assets/deals/redmi.png'),
-    },
-    {
-      id: '5',
-      name: 'Samsung',
-      price: 340000,
-      image: require('../../assets/deals/sam.png'),
-    },
-  ];
 
   useEffect(() => {
-    // Calculate the total price when itemQuantities changes
-    const newTotalPrice = data.reduce((total, item) => {
-      const quantity = itemQuantities[item.id] || 0;
+    const newTotalPrice = cartItems.reduce((total, item) => {
+      const quantity = itemQuantities[item._id] || 0;
       return total + quantity * item.price;
     }, 0);
-
-    // Update the total price state
     setTotalPrice(newTotalPrice);
   }, [itemQuantities]);
 
   const renderItem = ({ item }) => (
     <View style={styles.cartContainer}>
       <View style={styles.main}>
-        <Image source={item.image} style={styles.itemImage} />
-
+        <Image source={{ uri: `${API_URL}${item.images[0]}` }} style={styles.itemImage} />
         <View style={styles.detail}>
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.price}>{item.price} PKR</Text>
         </View>
-
         <View style={styles.btns}>
-          <Pressable style={styles.button} onPress={() => handleIncrease(item.id)}>
+          <Pressable style={styles.button} onPress={() => handleIncrease(item._id)}>
             <Text style={styles.buttonText}>+</Text>
           </Pressable>
-
-          <Text style={styles.quantity}>{itemQuantities[item.id] || 0}</Text>
-
-          <Pressable style={styles.button} onPress={() => handleDecrease(item.id)}>
+          <Text style={styles.quantity}>{itemQuantities[item._id] || 0}</Text>
+          <Pressable style={styles.button} onPress={() => handleDecrease(item._id)}>
             <Text style={styles.buttonText}>-</Text>
           </Pressable>
         </View>
@@ -94,23 +71,20 @@ const CartScreen = () => {
       <Text style={styles.title}>My Cart</Text>
       <View style={styles.scrollView}>
         <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
+          data={cartItems}
+          keyExtractor={(item) => item._id}
           renderItem={renderItem}
         />
       </View>
       <Text style={styles.totalPrice}>
         Subtotal: {totalPrice} PKR
       </Text>
-      <Pressable style={styles.btn} onPress={() => {
-          console.log("Check Out pressed")
-        }}
-        >
-          <View style={styles.btnContent}>
-            <CustomIcon name="exit-to-app" style={styles.icon} size={20} />
-            <Text style={styles.btnText}>Check Out</Text>
-          </View>
-        </Pressable>
+      <Pressable style={styles.btn} onPress={() => Alert.alert('Check Out pressed')}>
+        <View style={styles.btnContent}>
+          <CustomIcon name="exit-to-app" style={styles.icon} size={20} />
+          <Text style={styles.btnText}>Check Out</Text>
+        </View>
+      </Pressable>
     </View>
   );
 };
@@ -130,8 +104,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5E4E2',
     width: '100%',
     height: '80%',
-    borderTopRightRadius:40,
-    borderTopLeftRadius:40,
+    borderTopRightRadius: 40,
+    borderTopLeftRadius: 40,
     marginTop: 10,
   },
   itemImage: {
@@ -147,7 +121,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F5F5',
     marginTop: 1,
-    marginBottom:2,
+    marginBottom: 2,
     height: 100,
     width: '90%',
     alignItems: 'center',
@@ -190,27 +164,27 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: 'gray',
-    marginRight:4
-
+    marginRight: 4,
   },
   btn: {
     marginTop: 8,
-    height:50,
-    borderWidth:1,
-    borderRadius:20,
-  borderColor:'gray'
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: 'gray',
   },
   btnContent: {
-    flex:1,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 8,
-    justifyContent:'center'
+    justifyContent: 'center',
   },
-  btnText:{
-    fontSize:25,
-    fontWeight:'900',
+  btnText: {
+    fontSize: 25,
+    fontWeight: '900',
     color: 'gray',
-  }
+  },
 });
+
 export default CartScreen;

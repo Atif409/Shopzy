@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
     color: '#2c3e50',
-    fontWeight: 'bold', // Make labels bold
+    fontWeight: 'bold', 
   },
   input: {
     borderLeftWidth:0,

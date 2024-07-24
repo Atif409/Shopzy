@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, KeyboardAvoidingView, TextInput, Pressable, TouchableOpacity, Alert } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useNavigation } from '@react-navigation/native'
-import { styles } from '../styles/LoginStyle';
-import CustomIcon from '../components/CustomIcon';
+import { View, Image, Text, KeyboardAvoidingView, TextInput, Pressable, Alert, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from '@env';
-
+import CustomIcon from '../components/CustomIcon';
+import { styles } from '../styles/LoginStyle';
 
 const LoginScreen = () => {
-    const { container,
+    const {
+        container,
         tagline,
         mainLoginBox,
         loginBox,
@@ -20,7 +20,8 @@ const LoginScreen = () => {
         touchable,
         btnLogin,
         btnText,
-        logo, noAccout,
+        logo,
+        noAccout,
         divider,
         line,
         buttonText,
@@ -31,24 +32,27 @@ const LoginScreen = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
+
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
                 const token = await AsyncStorage.getItem("authToken");
 
                 if (token) {
-                    navigation.navigate('Main')
+                    navigation.navigate('Main');
                 }
             } catch (err) {
                 console.log("Error checking login status:", err);
-                // Handle the error, maybe redirect to login or show an alert
             }
         };
 
         checkLoginStatus();
     }, []);
+
     const handleLogin = async () => {
+        setLoading(true); // Start loading
         try {
             const user = {
                 email: email,
@@ -56,12 +60,14 @@ const LoginScreen = () => {
             };
 
             const response = await axios.post(`${API_URL}/customer/login`, user);
-            const token = response.data.token;
+            const { token, name } = response.data;
+            console.log(name);
             await AsyncStorage.setItem("authToken", token);
+            await AsyncStorage.setItem("userName", name);
+
             Alert.alert("Login Complete");
+            navigation.navigate('Profile');
         } catch (error) {
-
-
             if (error.response && error.response.status === 401) {
                 Alert.alert("Login Error", "Invalid email or password");
             } else {
@@ -71,21 +77,20 @@ const LoginScreen = () => {
                     console.log("Response status:", error.response.status);
                 }
             }
+        } finally {
+            setLoading(false);
         }
     };
 
-
-
     return (
-        <SafeAreaView style={container} >
-
+        <SafeAreaView style={container}>
             <View>
                 <Image
                     source={require('../../assets/logo/logo.png')}
                     style={logo}
                 />
             </View>
-            <KeyboardAvoidingView>
+            <KeyboardAvoidingView style={{ flex: 1 }}>
                 <View style={subContainer}>
                     <Text style={tagline}>
                         Login Into Your Account
@@ -94,12 +99,14 @@ const LoginScreen = () => {
                 <View style={mainLoginBox}>
                     <View style={loginBox}>
                         <CustomIcon name="email" style={icon} />
-
                         <TextInput
                             value={email}
                             onChangeText={(text) => setEmail(text)}
                             placeholder='Enter your email'
-                            style={[inputs, { fontSize: email ? 16 : 16 }]}
+                            style={[inputs, { fontSize: 16 }]}
+                            autoCapitalize="none"
+                            keyboardType="email-address"
+                            autoCompleteType="email"
                         />
                     </View>
                     <View style={loginBox}>
@@ -108,35 +115,33 @@ const LoginScreen = () => {
                             value={password}
                             onChangeText={(text) => setPassword(text)}
                             placeholder='Enter your password'
-                            style={[inputs, { fontSize: email ? 16 : 16 }]}
+                            style={[inputs, { fontSize: 16 }]}
                             secureTextEntry={true}
+                            autoCompleteType="password"
                         />
                     </View>
                     <View style={touchable}>
                         <Text>
                             {/* Keep me logged in */}
                         </Text>
-                        <Text style={{ color: 'blue', fontWeight: 500 }}>
+                        {/* <Text style={{ color: 'blue', fontWeight: '500' }}>
                             Forgot Password
-                        </Text>
+                        </Text> */}
                     </View>
                     <View style={{ marginTop: 80 }} />
-                    <Pressable style={btnLogin} onPress={handleLogin}
-
-
-                    >
-                        <Text style={btnText}>Login</Text>
+                    <Pressable style={[btnLogin, loading && { backgroundColor: '#ccc' }]} onPress={handleLogin} disabled={loading}>
+                        {loading ? (
+                            <ActivityIndicator color="#fff" />
+                        ) : (
+                            <Text style={btnText}>Login</Text>
+                        )}
                     </Pressable>
 
-                    <Pressable style={{ marginTop: 15 }} onPress={() => {
-                        navigation.navigate('Register')
-                    }}
-                    >
+                    <Pressable style={{ marginTop: 15 }} onPress={() => navigation.navigate('Register')}>
                         <Text style={noAccout}>Don't have an account? Sign Up</Text>
                     </Pressable>
 
-
-                    <>
+                    {/* <>
                         <View style={divider}>
                             <View style={line} />
                             <Text style={buttonText}>Or Login with</Text>
@@ -166,11 +171,11 @@ const LoginScreen = () => {
                                 <Text>Google</Text>
                             </TouchableOpacity>
                         </View>
-                    </>
+                    </> */}
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
-    )
+    );
 }
 
-export default LoginScreen
+export default LoginScreen;

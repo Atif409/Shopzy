@@ -13,7 +13,7 @@ const customerSchema = new mongoose.Schema({
     mobileNo: {
         type: String,
         unique: true,
-        sparse: true // Allows multiple documents that have no value for the field
+        sparse: true 
     },
     password: {
         type: String,

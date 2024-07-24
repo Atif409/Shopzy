@@ -1,37 +1,45 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { API_URL } from '@env';
 import CustomAlert from '../components/CustomAlert';
 
 const VerifyScreen = ({ route }) => {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [otp, setOtp] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const { email } = route.params;
-
+  const [email, setEmail] = useState('');
+  const navigation = useNavigation();
   const inputRefs = useRef([]);
 
-  const handleChangeText = (index, value) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
+  useEffect(() => {
+    if (route.params && route.params.email) {
+      setEmail(route.params.email);
+      console.log('Email received:', route.params.email);
+    } else {
+      console.error('No email found in route parameters');
+    }
+  }, [route.params]);
 
-    // Move focus to the next input field
-    if (value && index < otp.length - 1) {
-      inputRefs.current[index + 1].focus();
+  const handleChangeText = (index, value) => {
+    if (value.length === 0 || (value.length === 1 && /^\d+$/.test(value))) {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+
+      if (value && index < 5) {
+        inputRefs.current[index + 1].focus();
+      }
     }
   };
 
   const handleKeyPress = (index, event) => {
     if (event.nativeEvent.key === 'Backspace' && index > 0 && !otp[index]) {
-      // Delete digit from current input field
       const newOtp = [...otp];
       newOtp[index - 1] = '';
       setOtp(newOtp);
-
-      // Move focus to the previous input field
       inputRefs.current[index - 1].focus();
     }
   };
@@ -39,16 +47,30 @@ const VerifyScreen = ({ route }) => {
   const handleVerifyOTP = async () => {
     const verificationCode = otp.join('');
     setLoading(true);
+    console.log('Verifying OTP for email:', email);
+    console.log('Verification Code:', verificationCode);
     try {
       const response = await axios.post(`${API_URL}/customer/verify`, { email, verificationCode });
-      setAlertMessage('Verifcation Successful');
+      console.log('Response:', response.data);
+      setAlertMessage('Verification Successful');
       setShowAlert(true);
     } catch (error) {
-      console.log(error)
-      setAlertMessage('Verification Failed');
+      console.log('Error response:', error.response);
+      if (error.response && error.response.status === 404) {
+        setAlertMessage('Verification Failed: Resource not found');
+      } else {
+        setAlertMessage('Verification Failed: An unexpected error occurred');
+      }
       setShowAlert(true);
     }
     setLoading(false);
+  };
+
+  const handleAlertClose = () => {
+    setShowAlert(false);
+    if (alertMessage === 'Verification Successful') {
+      navigation.navigate('Login');
+    }
   };
 
   return (
@@ -56,14 +78,14 @@ const VerifyScreen = ({ route }) => {
       <Text style={styles.title}>OTP Verification</Text>
       <Text style={styles.tagline}>Please enter the OTP sent to your email to verify your email address.</Text>
       <View style={styles.otpContainer}>
-        {otp.map((value, index) => (
+        {[...Array(6).keys()].map((index) => (
           <TextInput
             key={index}
             ref={(ref) => (inputRefs.current[index] = ref)}
             style={styles.otpInput}
             onChangeText={(text) => handleChangeText(index, text)}
             onKeyPress={(event) => handleKeyPress(index, event)}
-            value={value}
+            value={otp[index] || ''}
             maxLength={1}
             keyboardType="numeric"
             autoFocus={index === 0}
@@ -80,7 +102,7 @@ const VerifyScreen = ({ route }) => {
       <CustomAlert
         visible={showAlert}
         message={alertMessage}
-        onClose={() => setShowAlert(false)}
+        onClose={handleAlertClose}
       />
     </View>
   );

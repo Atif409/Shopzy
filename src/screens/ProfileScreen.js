@@ -1,14 +1,50 @@
 import {
+  useState,
+  useEffect
+} from "react";
+import {
   Image,
   StyleSheet,
   Text,
   View,
   ScrollView,
   Pressable,
+
 } from "react-native";
 import CustomIcon from '../components/CustomIcon';
 import { FontAwesome } from '@expo/vector-icons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from '@react-navigation/native'
 const ProfileScreen = () => {
+  const navigation = useNavigation();
+
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const name = await AsyncStorage.getItem('userName');
+        setUserName(name || '');
+      } catch (error) {
+        console.log('Error fetching user name:', error);
+      }
+    };
+
+    fetchUserName();
+  }, []);
+  console.log(userName)
+
+  const handleLogout = async () => {
+    try {
+      // Remove the authentication token
+      await AsyncStorage.removeItem("authToken");
+      console.log("Token removed successfully");
+      navigation.navigate('Login');
+
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
   return (<ScrollView style={
     styles.mainContainer
@@ -17,7 +53,7 @@ const ProfileScreen = () => {
       <Text style={
         styles.title
       }>
-       My Profile
+        My Profile
       </Text>
       <View style={styles.profileView}>
         <View style={styles.innerProfile}>
@@ -32,7 +68,7 @@ const ProfileScreen = () => {
       }>
         <Text style={
           styles.name
-        }>Muhammad Atif</Text>
+        }>{userName}</Text>
         <View style={
           styles.activeView
         }>
@@ -73,7 +109,7 @@ const ProfileScreen = () => {
         }}
         >
           <View style={styles.btnContent}>
-           <FontAwesome name="heart" size={21} color="gray" style={styles.icon}/>
+            <FontAwesome name="heart" size={21} color="gray" style={styles.icon} />
             <Text style={styles.btnText}>Wishlist</Text>
             <CustomIcon name="keyboard-arrow-right" style={styles.icon} />
           </View>
@@ -103,11 +139,24 @@ const ProfileScreen = () => {
 
         <Pressable style={styles.btn} onPress={() => {
           console.log("Cards pressed")
+          navigation.navigate('CardScreen')
         }}
         >
           <View style={styles.btnContent}>
             <CustomIcon name="credit-card" style={styles.icon} />
             <Text style={styles.btnText}>Cards</Text>
+            <CustomIcon name="keyboard-arrow-right" style={styles.icon} />
+          </View>
+        </Pressable>
+
+        <Pressable style={styles.btn} onPress={() => {
+          console.log("Logout pressed")
+         handleLogout()
+        }}
+        >
+          <View style={styles.btnContent}>
+            <CustomIcon name="logout" style={styles.icon} />
+            <Text style={styles.btnText}>Logout</Text>
             <CustomIcon name="keyboard-arrow-right" style={styles.icon} />
           </View>
         </Pressable>
@@ -207,17 +256,17 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop: 20,
-    height:40
+    height: 40
   },
   btnContent: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 8,
-    justifyContent:'space-between'
+    justifyContent: 'space-between'
   },
-  btnText:{
-    width:250,
-    fontSize:15,
-    fontWeight:'bold'
+  btnText: {
+    width: 250,
+    fontSize: 15,
+    fontWeight: 'bold'
   }
 });

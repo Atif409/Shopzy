@@ -107,7 +107,7 @@ const generateSecretKey = () => {
 
 const secretKey = generateSecretKey();
 
-// Endpoint to login the customer
+//Login endpoint
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -130,13 +130,16 @@ router.post('/login', async (req, res) => {
 
     // Generate a token
     const token = jwt.sign({ customerId: customer._id }, secretKey);
-
-    res.status(200).json({ token });
-    console.log(token);
+    console.log(token)
+    // Return the token and customer's name
+    res.status(200).json({ token, name: customer.name });
+    console.log(customer.name)
+    
   } catch (error) {
     res.status(500).json({ message: 'Login Failed' });
   }
 });
+
 
 // Function to send reset password code
 const sendResetPasswordCode = async (email, resetCode) => {
@@ -202,6 +205,7 @@ router.post('/reset-password', async (req, res) => {
     res.status(500).json({ message: 'Password reset failed' });
   }
 });
+
 
 
 module.exports = router;

@@ -9,24 +9,7 @@ import { API_URL } from '@env';
 import CustomAlert from '../components/CustomAlert';
 
 const RegisterScreen = () => {
-  const { container,
-    tagline,
-    mainLoginBox,
-    loginBox,
-    subContainer,
-    inputs,
-    icon,
-    touchable,
-    btnLogin,
-    btnText,
-    logo, noAccout,
-    divider,
-    line,
-    buttonText,
-    socialContainer,
-    socialButton,
-    socialIcon,
-  } = styles;
+  const { container, tagline, mainLoginBox, loginBox, subContainer, inputs, icon, touchable, btnLogin, btnText, logo, noAccout, divider, line, buttonText, socialContainer, socialButton, socialIcon } = styles;
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -49,51 +32,36 @@ const RegisterScreen = () => {
       setShowAlert(true);
       return;
     }
-    // Email format validation
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const trimmedEmail = email.trim();
     if (!emailRegex.test(email)) {
       setAlertMessage('Please enter a valid email address');
       setShowAlert(true);
       return;
     }
 
-    // Password length validation
     if (password.length < 6) {
       setAlertMessage('Password must be at least 6 characters long');
       setShowAlert(true);
       return;
     }
 
-    // Password complexity validation
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
     if (!passwordRegex.test(password)) {
       setAlertMessage('Password must contain at least one letter and one number');
       setShowAlert(true);
       return;
     }
-    setLoading(true); // Start loading
 
-    const user = {
-      name: name,
-      email: email,
-      password: password,
-    };
+    setLoading(true);
 
-    // send a POST request to the backend API to register the user
+    const user = { name, email, password };
+
     axios.post(`${API_URL}/customer/register`, user).then((response) => {
-      console.log(response);
-      console.log("Email:", email);
       setAlertMessage('Please Verify Your Email');
       setShowAlert(true);
-
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
     }).catch((error) => {
       console.log(error.response.status, error.response.data.message);
-
       if (error.response && error.response.status === 400 && error.response.data.message === 'Email already registered') {
         setAlertMessage('Email Already Registered');
       } else {
@@ -101,30 +69,25 @@ const RegisterScreen = () => {
       }
       setShowAlert(true);
     }).finally(() => {
-      setLoading(false); // Stop loading
+      setLoading(false);
     });
   };
 
   const handleAlertClose = () => {
     setShowAlert(false);
     if (alertMessage === 'Please Verify Your Email') {
-      navigation.navigate('VerifyScreen', { email: email });
+      navigation.navigate('VerifyScreen', { email });
     }
   };
 
   return (
     <SafeAreaView style={container}>
       <View>
-        <Image
-          source={require('../../assets/logo/logo.png')}
-          style={logo}
-        />
+        <Image source={require('../../assets/logo/logo.png')} style={logo} />
       </View>
       <KeyboardAvoidingView>
         <View style={subContainer}>
-          <Text style={tagline}>
-            Register To Your Account
-          </Text>
+          <Text style={tagline}>Register To Your Account</Text>
         </View>
         <View style={mainLoginBox}>
           <View style={loginBox}>
@@ -133,7 +96,7 @@ const RegisterScreen = () => {
               value={name}
               onChangeText={(text) => setName(text)}
               placeholder='Enter your name'
-              style={[inputs, { fontSize: email ? 16 : 16 }]}
+              style={inputs}
             />
           </View>
           <View style={loginBox}>
@@ -142,7 +105,7 @@ const RegisterScreen = () => {
               value={email}
               onChangeText={(text) => setEmail(text)}
               placeholder='Enter your email'
-              style={[inputs, { fontSize: email ? 16 : 16 }]}
+              style={inputs}
             />
           </View>
           <View style={loginBox}>
@@ -151,8 +114,8 @@ const RegisterScreen = () => {
               value={password}
               onChangeText={(text) => setPassword(text)}
               placeholder='Enter your password'
-              style={[inputs, { fontSize: email ? 16 : 16 }]}
-              secureTextEntry={true}
+              style={inputs}
+              secureTextEntry
             />
           </View>
           <View style={loginBox}>
@@ -161,8 +124,8 @@ const RegisterScreen = () => {
               value={confirmPassword}
               onChangeText={(text) => setConfirmPassword(text)}
               placeholder='Confirm your password'
-              style={[inputs, { fontSize: email ? 16 : 16 }]}
-              secureTextEntry={true}
+              style={inputs}
+              secureTextEntry
             />
           </View>
           <View style={touchable}>
@@ -185,41 +148,25 @@ const RegisterScreen = () => {
           <Pressable style={{ marginTop: 15 }} onPress={() => { navigation.navigate("Login") }}>
             <Text style={noAccout}>Already have an account? Sign In</Text>
           </Pressable>
-          <>
-            <View style={divider}>
-              <View style={line} />
-              <Text style={buttonText}>Or Sign up with</Text>
-              <View style={line} />
-            </View>
-            <View style={socialContainer}>
-              <TouchableOpacity
-                onPress={() => console.log("Facebook Pressed")}
-                style={socialButton}
-              >
-                <Image
-                  source={require("../../assets/icons/facebook.png")}
-                  style={socialIcon}
-                  resizeMode='contain'
-                />
-                <Text>Facebook</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => console.log("Google Pressed")}
-                style={socialButton}
-              >
-                <Image
-                  source={require("../../assets/icons/google.png")}
-                  style={socialIcon}
-                  resizeMode='contain'
-                />
-                <Text>Google</Text>
-              </TouchableOpacity>
-            </View>
-          </>
+          {/* <View style={divider}>
+            <View style={line} />
+            <Text style={buttonText}>Or Sign up with</Text>
+            <View style={line} />
+          </View>
+          <View style={socialContainer}>
+            <TouchableOpacity onPress={() => console.log("Facebook Pressed")} style={socialButton}>
+              <Image source={require("../../assets/icons/facebook.png")} style={socialIcon} resizeMode='contain' />
+              <Text>Facebook</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log("Google Pressed")} style={socialButton}>
+              <Image source={require("../../assets/icons/google.png")} style={socialIcon} resizeMode='contain' />
+              <Text>Google</Text>
+            </TouchableOpacity>
+          </View> */}
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  )
+  );
 }
 
 export default RegisterScreen;
